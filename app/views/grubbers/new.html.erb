@@ -1,0 +1,22 @@
+<h1>Hello Future Grubber</h1>
+<%= flash[:notice] if flash [:notice] %>
+<%= flash[:alert] if flash[:alert] %>
+
+<p>Would you like to recieve your messages via email or your mobile number? Fill in one
+  (or both below).</p>
+<%= form_for @grubber do |f| %>
+  <% if @grubber.errors.any? %>
+    <ul>
+      <% @grubber.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+     </ul>
+  <% end %>
+  <%= f.label :email %>
+  <%= f.text_field :email %><br>
+  <%= f.label :mobile %>
+  <%= f.phone_field :mobile %><br>
+  <%= f.label :password %>
+  <%= f.password_field :password %><br>
+  <%= f.submit %>
+<% end %>
