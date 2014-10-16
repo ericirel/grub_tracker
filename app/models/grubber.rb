@@ -13,32 +13,46 @@ class Grubber < ActiveRecord::Base
     if self.email.present?
        self.email_ok = true
     end
-
-
-  def send_email(message_body)
-    m = Mandrill::API.new
-    recipient = [email]
-    message = {
-      :subject=> "Grub alert!",
-      :from_name=> "Grub Tracker",
-      :text=> message_body,
-      :to=> recipient,
-      :html=>"<html><h1><strong>#{message_body}</strong>, Grub Tracker</h1></html>",
-      :from_email=>"tehsheepy@gmail.com"
-      }
-      sending = m.messages.send message
-      puts sending
-    end
-
   end
 
-  def self.email_grubbers(message_body)
-    grubber_emails = Grubber.emailable.map do |grubber|
-      Hash(email: grubber.email)
+
+  # def send_email(message_body)
+  #   m = Mandrill::API.new
+  #   recipient = [email]
+  #   message = {
+  #     :subject=> "Grub alert!",
+  #     :from_name=> "Grub Tracker",
+  #     :text=> message_body,
+  #     :to=> recipient,
+  #     :html=>"<html><h1><strong>#{message_body}</strong>, Grub Tracker</h1></html>",
+  #     :from_email=>"tehsheepy@gmail.com"
+  #     }
+  #     sending = m.messages.send message
+  #     puts sending
+  #   end
+
+  # end
+
+  def send_text(message_body)
+    mobile = self.mobile
+    @client = Twilio::REST::Client.new TWILIO_ACCOUNT, TWILIO_TOKEN
+
+    message = @client.account.messages.create(
+    :body => message_body,
+    :to => mobile,
+    :from => TWILIO_NUMBER,
+    puts message.to
+  end
+
+  def self.text_grubbers(message_body)
+    Grubber.textable.each do |grubber|
+      grubber.send_text(message_body)
     end
-    emailable_grubbers.each do |email|
-      recipient = [email]
+  end
+
+  def send_email(message_body)
       m = Mandrill::API.new
+      recipient = [{email: self.email}]
       message = {
         :subject=> "Grub alert!",
         :from_name=> "Grub Tracker",
@@ -49,6 +63,11 @@ class Grubber < ActiveRecord::Base
       }
       sending = m.messages.send message
       puts sending
+    end
+
+    def self.email_grubbers(message_body)
+      Grubber.emailable.each do |grubber|
+        grubber.send_email(message_body)
     end
   end
 end

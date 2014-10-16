@@ -5,6 +5,7 @@ class GrubbersController < ApplicationController
     @message = params[:body]
     #send messages!
     Grubber.email_grubbers(message)
+    Grubber.text_grubbers(message)
   end
 
   def index
