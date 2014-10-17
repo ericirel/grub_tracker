@@ -1,0 +1,13 @@
+<%= flash[:notice] if flash [:notice] %>
+<%= flash[:alert] if flash[:alert] %>
+<h1>Got an alert?</h1>
+
+<% if current_grubber %>
+  <p>Let the world know below:</p>
+  <%= form_tag('/grubbers/message', method: :post) do %>
+    <%= text_area_tag :body %><br>
+    <%= submit_tag "Let\'s do this!" %>
+<% end %>
+  <% else %>
+    <p>Please sign in or <%= link_to 'sign up', root_path %>!</p>
+<% end %>

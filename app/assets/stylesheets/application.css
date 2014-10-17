@@ -16,5 +16,18 @@
 body{
   font-family: arial;
   font-size: 1.5em;
-  background-color: #fafafa
+  background-color: #fafafa;
+}
+
+nav{
+  text-align: right;
+  font-size: .5em;
+  padding: .5em;
+  padding-bottom: 1em;
+  border-bottom: 1px solid #ccc;
+}
+
+.detail{
+  font-size: .5em;
+  color: #999;
 }

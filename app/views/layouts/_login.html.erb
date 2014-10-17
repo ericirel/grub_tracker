@@ -1,0 +1,14 @@
+<% if current_grubber %>
+  <p>How's it going Grubber? |
+    <%= link_to 'Sign out', logout_path, method: :destroy %> |
+    <%= link_to 'settings', edit_grubber_path(current_grubber) %>
+  </p>
+<% else %>
+  <%= form_tag '/sessions', method: :post do %>
+    <%= label_tag :email %>
+    <%= email_field_tag :email %>
+    <%= label_tag :password %>
+    <%= password_field_tag :password %>
+    <%= submit_tag :login%>
+  <% end %>
+<% end %>

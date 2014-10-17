@@ -1,2 +1,43 @@
-<h1>Grubbers#edit</h1>
-<p>Find me in app/views/grubbers/edit.html.erb</p>
+<h1>Welcome Grubber. Good to have you back!</h1>
+
+<%= flash[:notice] if flash[:notice] %>
+<%= flash[:alert] if flash[:alert] %>
+
+<p>Would you like to receive your messages via email or your mobile number? Fill in one (or both below).</p>
+<%= form_for @grubber do |f| %>
+  <% if @grubber.errors.any? %>
+    <ul>
+    <% @grubber.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  <% end %>
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+  <%= f.check_box :email_ok %>
+  <% if @grubber.email_ok %>
+    <span class="detail">(uncheck to stop email alerts)</span>
+  <% else %>
+    <span class="detail">(check to receive email alerts)</span>
+  <% end %>
+  <br />
+  <%= f.label :mobile %>
+  <%= f.phone_field :mobile %>
+  <%= f.check_box :text_ok %>
+  <% if @grubber.text_ok %>
+    <span class="detail">(uncheck to stop text alerts)</span>
+  <% else %>
+    <span class="detail">(check to receive text alerts)</span>
+  <% end %>
+  <br />
+  <% if @grubber.subscribed %>
+  <p class="detail">Want to stop receiving alerts? Uncheck this box:
+    <%= f.check_box :subscribed %>
+  </p>
+  <% else %>
+    <p class="detail">You are not receiving alerts? Check this box to fix that:
+    <%= f.check_box :subscribed %>
+  </p>
+  <% end %>
+  <%= f.submit %>
+<% end %>
