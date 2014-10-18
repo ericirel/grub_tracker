@@ -35,24 +35,6 @@ class Grubber < ActiveRecord::Base
     end
   end
 
-
-  # def send_email(message_body)
-  #   m = Mandrill::API.new
-  #   recipient = [email]
-  #   message = {
-  #     :subject=> "Grub alert!",
-  #     :from_name=> "Grub Tracker",
-  #     :text=> message_body,
-  #     :to=> recipient,
-  #     :html=>"<html><h1><strong>#{message_body}</strong>, Grub Tracker</h1></html>",
-  #     :from_email=>"tehsheepy@gmail.com"
-  #     }
-  #     sending = m.messages.send message
-  #     puts sending
-  #   end
-
-  # end
-
   def send_text(message_body)
     # TWILIO_ACCOUNT = ENV['GRUBBER_TWILIO_ACCOUNT']
     # TWILIO_TOKEN = ENV['GRUBBER_TWILIO_SECRET']
@@ -82,7 +64,7 @@ class Grubber < ActiveRecord::Base
         :text=> message_body,
         :to=> recipient,
         :html=>"<html><h1><strong>#{message_body}</strong>, Grub Tracker</h1></html>",
-        :from_email=>"tehsheepy@gmail.com"
+        :from_email=>"***EMAIL***"
       }
       sending = m.messages.send message
       puts sending
